@@ -381,7 +381,7 @@ export default class SiteNav extends Component {
 
       if (target) { // off screen detection
         // target is rootGridItem
-        const {left, width} = target.getBoundingClientRect();
+        const {left, right, width} = target.getBoundingClientRect();
         const siteNavWidth = target.parentNode.clientWidth;
         leftOffset = (toData.width / 2) - (left + (width / 2));
         rightOffset = (toData.width / 2) - (siteNavWidth - (left + (width / 2)));
@@ -394,7 +394,7 @@ export default class SiteNav extends Component {
         }
 
         if (rightOffset > 0) {
-          toData.left -= rightOffset - OffScreenPadding;
+          toData.left -= rightOffset + OffScreenPadding;
         } else {
           rightOffset = 0;
         }

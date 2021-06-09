@@ -5,7 +5,7 @@ import SiteNav, {ContentGroup} from './MiNav'
 const MiHeader = () =>
   (
     <div>
-      <SiteNav align='right' debug={true}>
+      <SiteNav align='right'>
         <ContentGroup title="services"  width="850" height="170" background='grey'>
           <ul>
             <li><a href="/#">Servicves </a></li>
