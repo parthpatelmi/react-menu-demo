@@ -1,0 +1,29 @@
+body{
+  color: #1ea7fd;
+}
+
+.navbar-main {
+  padding: 15px;
+  .navbar-ul {
+    display: flex;
+    li {
+      list-style: none;
+      margin: 0 15px ;
+    }
+  }
+}
+.active{
+  border-bottom: green;
+}
+.services-li{
+  position: relative;
+  .services-modal-main{
+    position: absolute;
+    background-color: red;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: auto;
+  }
+}
