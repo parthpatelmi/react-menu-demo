@@ -23,7 +23,7 @@ const fadeInSeconds = 0.25;
 const moveSeconds = 0.25;
 const moveArrowSeconds = 0.28;
 const fadeOutContentSeconds = 0.15;
-const fadeInContentSeconds = 0.30;
+const fadeInContentSeconds = 0.25;
 const OffScreenPadding = 10;
 
 const setFromProps = camelCaseKey => css`
@@ -126,6 +126,7 @@ const FadeOut = keyframes`
 `;
 const MovingDiv = styled.div`
   opacity: 1;
+  overflow: hidden;
   ${setFromProps('color')};
   ${setFromProps('background')};
   position: absolute;
@@ -135,7 +136,7 @@ const MovingDiv = styled.div`
   height: ${({fromData}) => fromData ? fromData.height : 0}px;
   display: ${({display}) => display};
   border-radius: 4px;
-  box-shadow: 0 8px 28px 1px rgba(138,126,138,0.67); // Ripped from: https://www.cssmatic.com/box-shadow
+  box-shadow: 0 8px 28px 1px rgba(138,126,138,0.67);
   animation: ${({fadeOut, display, fromData, toData}) => {
   if (fadeOut) return FadeOut;
   if (display === 'block') {
@@ -231,19 +232,23 @@ const Arrow = styled.div`
 const FadeInContent = keyframes`
   from {
     opacity: 0;
+    transform: translateX(20px);
   }
   
   to {
     opacity: 1;
+    transform: translateX(0);
   }
 `;
 const FadeOutContent = keyframes`
   from {
     opacity: 1;
+    transform: translateX(0);
   }
   
   to {
     opacity: 0;
+    transform: translateX(-50px);
     visibility: hidden;
   }
 `;
