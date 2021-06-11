@@ -4,8 +4,11 @@ import SiteNav, {ContentGroup} from './MiNav'
  
 const MiHeader = () =>
   (
-    <div>
-      <SiteNav align='right'>
+    <div className='d-flex align-items-center w-100 bg-black'>
+      {/*<div className='px-5'>*/}
+      {/*  company logo*/}
+      {/*</div>*/}
+      <SiteNav align='right' rowHeight={100} color='white' background='black' navClass='w-100 bg-white' >
         <ContentGroup title="services"  width="850" height="170" background='grey'>
           <ul>
             <li><a href="/#">Servicves </a></li>
@@ -14,7 +17,6 @@ const MiHeader = () =>
             <li><a href="/#">Servicves </a></li>
             <li><a href="/#">Servicves </a></li>
             <li><a href="/#">Servicves </a></li>
-
           </ul>
         </ContentGroup>
         <ContentGroup title="Solutions"  width="991" height="270" background='pink'>

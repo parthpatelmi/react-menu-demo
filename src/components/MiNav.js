@@ -5,8 +5,8 @@ import kebabCase from 'lodash.kebabcase';
 
 const defaultRootAlign = 'center';
 const defaultColor = '#fff';
-const defaultColumnWidth = 150;
-const defaultRowHeight = 45;
+const defaultColumnWidth = 100;
+const defaultRowHeight = 90;
 const defaultBackground = '#323232';
 const defaultBreakpoint = 768;
 const defaultContentBackground = '#fff';
@@ -38,6 +38,7 @@ const GridContainer = styled.div`
   
   @media(min-width: ${({breakpoint}) => breakpoint}px) {
     display: grid;
+    padding: 0 10px;
     ${setFromProps('justifyContent')};
     justify-items: stretch;
     grid-template-columns: repeat(${({columns}) => columns}, ${({columnWidth}) => columnWidth}px);
@@ -288,6 +289,7 @@ export default class SiteNav extends Component {
     breakpoint: defaultBreakpoint,
     color: defaultColor,
     debug: false,
+    navClass: ""
   };
 
   /**
@@ -425,7 +427,7 @@ export default class SiteNav extends Component {
   render() {
     const {
       columnWidth, rowHeight, background, contentBackground, contentColor, contentTop,
-      children, align, fontSize, fontFamily, color, breakpoint
+      children, align, fontSize, fontFamily, color, breakpoint, navClass
     } = this.props;
     const {fromData, toData, display, fadeOut, leftOffset, rightOffset} = this.state;
     const columns = this.memoizeColumns(children);
@@ -435,7 +437,7 @@ export default class SiteNav extends Component {
     const contentBackgroundSanitised = (toData && toData.background) || contentBackground;
 
     return (
-      <nav>
+      <nav className={navClass}>
         <GridContainer
           background={background}
           columnWidth={columnWidth}
