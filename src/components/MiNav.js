@@ -22,8 +22,8 @@ const fadeOutSeconds = 0.34;
 const fadeInSeconds = 0.25;
 const moveSeconds = 0.25;
 const moveArrowSeconds = 0.28;
-const fadeOutContentSeconds = 0.29;
-const fadeInContentSeconds = 0.1;
+const fadeOutContentSeconds = 0.15;
+const fadeInContentSeconds = 0.30;
 const OffScreenPadding = 10;
 
 const setFromProps = camelCaseKey => css`
