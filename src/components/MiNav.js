@@ -69,13 +69,28 @@ const GridItem = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 2px solid transparent;
   cursor: pointer;
+  position: relative;
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 0;
+    height: 2px;
+    background: red;
+    transition: width .3s;
+  }
   &:hover {
     color: red;
-    border-bottom: 2px solid red;
     opacity: 1;
     cursor: pointer;
+    &::after{
+      width: 80%;
+    }
   }
 `;
 const ContentRow = styled.div`
