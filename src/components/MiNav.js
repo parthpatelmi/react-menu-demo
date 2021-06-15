@@ -56,7 +56,7 @@ const GridItemLink = styled.a`
   justify-content: center;
   align-items: center;
   &:hover {
-    opacity: 0.5;
+    //opacity: 0.5;
   }
   ${setFromProps('color')};
   
@@ -71,6 +71,7 @@ const GridItem = styled.div`
   align-items: center;
   cursor: pointer;
   position: relative;
+  color: ${({active}) => active ? 'red' : ''};
   &::after {
     content: '';
     display: block;
@@ -338,31 +339,38 @@ export default class SiteNav extends Component {
       left: (((i + 1) * columnWidth) - (columnWidth / 2)) - (sanitisedWidth / 2),
     };
   }));
-  memoizeGridItems = memoize((children, color) => React.Children.map(children, (child, i) => {
-      const {title, rootUrl} = child.props;
+  memoizeGridItems = memoize((children, color, toData) => React.Children.map(children, (child, i) => {
+      const {title, rootUrl, navItemClass} = child.props;
 
       if (rootUrl) {
         return (
           <GridItemLink
             href={rootUrl}
+            active={toData && toData.index === i}
             key={`menu-title-${i}`}
             index={i}
             onMouseEnter={(e) => this.onMouseEnter(e.target, i)}
             color={color}
+            className={navItemClass}
           >
+            <span>
             {title}
+            </span>
           </GridItemLink>
         );
       }
-
+      console.log(toData)
       return (
         <GridItem
           key={`menu-title-${i}`}
+          active={toData && toData.index === i}
           index={i}
           onMouseEnter={(e) => this.onMouseEnter(e.target, i)}
           color={color}
         >
+          {/*<span>*/}
           {title}
+          {/*</span>*/}
         </GridItem>
       );
     }
@@ -451,7 +459,7 @@ export default class SiteNav extends Component {
     } = this.props;
     const {fromData, toData, display, fadeOut, leftOffset, rightOffset} = this.state;
     const columns = this.memoizeColumns(children);
-    const rootGridItems = this.memoizeGridItems(children, color);
+    const rootGridItems = this.memoizeGridItems(children, color, toData);
     const content = this.memoizeContent(children, fromData, toData);
     const justifyContent = this.memoizeAlign(align);
     const contentBackgroundSanitised = (toData && toData.background) || contentBackground;

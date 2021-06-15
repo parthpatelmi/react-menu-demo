@@ -41,6 +41,8 @@ const MiHeader = () =>
 
           </ul>
         </ContentGroup>
+        <ContentGroup navItemClass='root-btn' title="btn" rootUrl='#'>
+        </ContentGroup>
         <ContentGroup title="Contact"  width="500" height="100">
           some other links.<br/>
           <a href="#">Email</a><br/>

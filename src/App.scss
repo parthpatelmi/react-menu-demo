@@ -150,3 +150,17 @@
     transform: translateX(110%);
     transition: all var(--speed) ease;
   }
+
+  .root-btn{
+    padding: 5px 20px;
+    margin: auto 0;
+    background: red;
+    color: white;
+    border-radius: 50px;
+    span{
+      color: white;
+    }
+    &:hover{
+      text-decoration: none;
+    }
+  }
