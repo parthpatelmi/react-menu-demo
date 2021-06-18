@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import styled, {keyframes, css} from 'styled-components';
+import styled, {keyframes, css} from 'styled-components/macro';
 import memoize from 'memoize-one';
 import kebabCase from 'lodash.kebabcase';
 
@@ -41,13 +41,12 @@ const GridContainer = styled.div`
     padding: 0 10px;
     ${setFromProps('justifyContent')};
     justify-items: stretch;
-    grid-template-columns: repeat(${({columns}) => columns}, ${({columnWidth}) => columnWidth}px);
+    //grid-template-columns: 100px 100px auto repeat(3, 100px);
+    grid-template-columns: auto;
+     //grid-template-columns: repeat(${({columns}) => columns}, ${({columnWidth}) => columnWidth}px);
+    grid-gap: 0 20px;
     grid-template-rows: ${({rowHeight}) => rowHeight}px;
     position: relative;
-    ${setFromProps('background')};
-    ${setFromProps('color')};  
-    ${setFromProps('fontFamily')};
-    ${setFromProps('fontSize')}px;  
   }
 `;
 const GridItemLink = styled.a`
@@ -55,6 +54,8 @@ const GridItemLink = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
+  //white-space: nowrap;
+
   &:hover {
     //opacity: 0.5;
   }
@@ -66,6 +67,7 @@ const GridItemLink = styled.a`
 `;
 const GridItem = styled.div`
   grid-column: ${({index}) => index + 1} / span 1;
+  white-space: nowrap;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -90,25 +92,25 @@ const GridItem = styled.div`
     opacity: 1;
     cursor: pointer;
     &::after{
-      width: 80%;
+      width: 100%;
     }
   }
 `;
 const ContentRow = styled.div`
   grid-column: 1 / span ${({columns}) => columns};
   grid-row: 2 / span 1;
-  position: relative;
+  //position: relative;
   height: 0;
 `;
 const Move = (fromData, toData) => keyframes`
   from {
-    left: ${fromData.left}px;
+    //left: ${fromData.left}px;
     width: ${fromData.width}px;
     height: ${fromData.height}px;
   }
   
   to {
-    left: ${toData.left}px;
+    //left: ${toData.left}px;
     width: ${toData.width}px;
     height: ${toData.height}px;
   }
@@ -146,8 +148,11 @@ const MovingDiv = styled.div`
   ${setFromProps('color')};
   ${setFromProps('background')};
   position: absolute;
-  top: ${({top}) => top}px;
-  left: ${({fromData}) => fromData ? fromData.left : 0}px;
+   top: ${({top}) => top}px;
+  //top: 100px;
+  //left: ${({fromData}) => fromData ? fromData.left : 0}px;
+  right: ${({fromData}) => fromData ? fromData.right : 0}px;
+  right: 10px;
   width: ${({fromData}) => fromData ? fromData.width : 0}px;
   height: ${({fromData}) => fromData ? fromData.height : 0}px;
   display: ${({display}) => display};
@@ -336,7 +341,10 @@ export default class SiteNav extends Component {
       height: sanitisedHeight,
       width: sanitisedWidth,
       index: i,
-      left: (((i + 1) * columnWidth) - (columnWidth / 2)) - (sanitisedWidth / 2),
+      // left: (((i + 1) * columnWidth) - (columnWidth / 2)) - (sanitisedWidth / 2),
+      // left: (( columnWidth[i]) + (columnWidth[i] / 2)) - (sanitisedWidth / 2),
+      left: window.innerWidth - sanitisedWidth,
+      right: 0
     };
   }));
   memoizeGridItems = memoize((children, color, toData) => React.Children.map(children, (child, i) => {
@@ -359,7 +367,6 @@ export default class SiteNav extends Component {
           </GridItemLink>
         );
       }
-      console.log(toData)
       return (
         <GridItem
           key={`menu-title-${i}`}
@@ -412,23 +419,22 @@ export default class SiteNav extends Component {
       if (target) { // off screen detection
         // target is rootGridItem
         const {left, right, width} = target.getBoundingClientRect();
-        const siteNavWidth = target.parentNode.clientWidth;
+        // const siteNavWidth = target.parentNode.clientWidth;
+        const siteNavWidth = window.innerWidth;
         leftOffset = (toData.width / 2) - (left + (width / 2));
         rightOffset = (toData.width / 2) - (siteNavWidth - (left + (width / 2)));
-
-        if (leftOffset > 0) {
-          // if off screen, toData.left needs to be moved to be on-screen!
-          toData.left += leftOffset + OffScreenPadding;
-        } else {
-          leftOffset = 0;
-        }
-
-        if (rightOffset > 0) {
-          toData.left -= rightOffset + OffScreenPadding;
-        } else {
-          rightOffset = 0;
-        }
-
+        // if (leftOffset > 0) {
+        //   // if off screen, toData.left needs to be moved to be on-screen!
+        //   toData.left += leftOffset + OffScreenPadding;
+        // } else {
+        //   leftOffset = 0;
+        // }
+        //
+        // if (rightOffset > 0) {
+        //   toData.left -= rightOffset + OffScreenPadding;
+        // } else {
+        //   rightOffset = 0;
+        // }
         let fromData;
         if (prevState.fadeOut || !prevState.toData) {
           // on cold start, pop up right from the current item
@@ -499,7 +505,8 @@ export default class SiteNav extends Component {
               fromData={fromData}
               toData={toData}
               color={contentColor}
-              top={contentTop}
+              // top={contentTop}
+              top={rowHeight}
               onClick={this.onClickMovingDiv}
               background={contentBackgroundSanitised}
             >

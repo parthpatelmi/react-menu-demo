@@ -5,7 +5,7 @@
     --nav-size: 60px;
     --border: 1px solid #474a4d;
     --border-radius: 8px;
-    --speed: 500ms; 
+    --speed: 500ms;
   }
   .bg-black{
     background: #323232;
@@ -15,14 +15,14 @@
     margin: 0;
     padding: 0;
   }
-  
+
   a {
     color: black;
     text-decoration: none;;
   }
-  
+
   /* Top Navigation Bar */
-  
+
   /* <nav> */
   .navigationBar {
     height: var(--nav-size);
@@ -30,7 +30,7 @@
     padding: 0 1rem;
     border-bottom: var(--border);
   }
-  
+
   /* <ul> */
   .navigationBar-nav {
     max-width: 100%;
@@ -38,7 +38,7 @@
     display: flex;
     justify-content: flex-end;
   }
-  
+
   /* <li> */
   .nav-item {
     width: calc(var(--nav-size) * 0.8);
@@ -46,7 +46,7 @@
     align-items: center;
     justify-content: center;
   }
-  
+
   /* Icon Button */
   .icon-button {
     --button-size: calc(var(--nav-size) * 0.5);
@@ -61,20 +61,20 @@
     justify-content: center;
     transition: filter 300ms;
   }
-  
+
   .icon-button:hover {
     filter: brightness(1.2);
   }
-  
-  .icon-button svg { 
+
+  .icon-button svg {
     fill: var(--text-color);
     width: 20px;
     height: 20px;
   }
-  
-  
+
+
   /* Dropdown Menu */
-  
+
   .dropdown {
     position: absolute;
     top: 58px;
@@ -87,11 +87,11 @@
     overflow: hidden;
     transition: height var(--speed) ease;
   }
-  
+
   .menu {
     width: 100%;
   }
-  
+
   .menu-item {
     height: 50px;
     display: flex;
@@ -100,24 +100,24 @@
     transition: background var(--speed);
     padding: 0.5rem;
   }
-  
+
   .menu-item .icon-button {
     margin-right: 0.5rem;
   }
-  
-  
+
+
   .menu-item .icon-button:hover {
     filter: none;
   }
-  
+
   .menu-item:hover {
     background-color: #525357;
   }
-  
+
   .icon-right {
     margin-left: auto;
   }
-  
+
   /* CSSTransition classes  */
   .menu-primary-enter {
     position: absolute;
@@ -134,8 +134,8 @@
     transform: translateX(-110%);
     transition: all var(--speed) ease;
   }
-  
-  
+
+
   .menu-secondary-enter {
     transform: translateX(110%);
   }
@@ -144,23 +144,29 @@
     transition: all var(--speed) ease;
   }
   .menu-secondary-exit {
-  
+
   }
   .menu-secondary-exit-active {
     transform: translateX(110%);
     transition: all var(--speed) ease;
   }
 
-  .root-btn{
+.root-btn {
+  span {
     padding: 5px 20px;
     margin: auto 0;
     background: red;
     color: white;
     border-radius: 50px;
-    span{
-      color: white;
-    }
-    &:hover{
-      text-decoration: none;
-    }
   }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.root-nav {
+  background: black;
+  color: white;
+  //padding: 0 30px;
+}
