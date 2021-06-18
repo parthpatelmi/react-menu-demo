@@ -5,10 +5,10 @@ import SiteNav, {ContentGroup} from './MiNav'
 const MiHeader = () =>
   (
     <div className='d-flex align-items-center w-100 bg-black'>
-      {/*<div className='px-5'>*/}
-      {/*  company logo*/}
-      {/*</div>*/}
-      <SiteNav align='right' debug={false} rowHeight={100} color='white' background='black' navClass='w-100 root-nav' >
+      <div className='px-5'>
+        company logo
+      </div>
+      <SiteNav align='right' debug={true} rowHeight={100} color='white' background='black' navClass='w-100 root-nav' >
         <ContentGroup title="services"  width="850" height="170" background='grey'>
           <ul>
             <li><a href="/#">Servicves </a></li>
