@@ -54,6 +54,7 @@ const GridItemLink = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: ${({active, activate}) => activate && active ? 'red' : ''};
   //white-space: nowrap;
 
   &:hover {
@@ -73,7 +74,7 @@ const GridItem = styled.div`
   align-items: center;
   cursor: pointer;
   position: relative;
-  color: ${({active}) => active ? 'red' : ''};
+  color: ${({active, activate}) => activate && active ? 'red' : ''};
   &::after {
     content: '';
     display: block;
@@ -83,14 +84,12 @@ const GridItem = styled.div`
     right: 0;
     margin: 0 auto;
     width: 0;
+    width: ${({active, activate}) => activate && active ? '100%' : '0'};
     height: 2px;
     background: red;
     transition: width .3s;
   }
   &:hover {
-    color: red;
-    opacity: 1;
-    cursor: pointer;
     &::after{
       width: 100%;
     }
@@ -302,7 +301,7 @@ export const ContentGroup = ({title, width, height, background}) => {
 };
 
 export default class SiteNav extends Component {
-  state = {display: 'none', fadeOut: false, fromData: null, toData: null, leftOffset: 0, rightOffset: 0};
+  state = {display: 'none', fadeOut: false, fromData: null, toData: null, leftOffset: 0, rightOffset: 0, activate:false};
 
   static defaultProps = {
     align: defaultRootAlign,
@@ -347,17 +346,19 @@ export default class SiteNav extends Component {
       right: 0
     };
   }));
-  memoizeGridItems = memoize((children, color, toData) => React.Children.map(children, (child, i) => {
+  memoizeGridItems = memoize((children, color, toData, activate) => React.Children.map(children, (child, i) => {
       const {title, rootUrl, navItemClass} = child.props;
 
       if (rootUrl) {
         return (
           <GridItemLink
             href={rootUrl}
+            activate={activate}
             active={toData && toData.index === i}
             key={`menu-title-${i}`}
             index={i}
             onMouseEnter={(e) => this.onMouseEnter(e.target, i)}
+            // onMouseLeave={this.onMouseLeave}
             color={color}
             className={navItemClass}
           >
@@ -367,12 +368,15 @@ export default class SiteNav extends Component {
           </GridItemLink>
         );
       }
+
       return (
         <GridItem
           key={`menu-title-${i}`}
+          activate={activate}
           active={toData && toData.index === i}
           index={i}
           onMouseEnter={(e) => this.onMouseEnter(e.target, i)}
+          // onMouseLeave={this.onMouseLeave}
           color={color}
         >
           {/*<span>*/}
@@ -405,10 +409,11 @@ export default class SiteNav extends Component {
 
   close = () => {
     if (this.props.debug) return;
-    this.setState((prevState) => ({fadeOut: true, fromData: prevState.toData}));
+    this.setState((prevState) => ({fadeOut: true, fromData: prevState.toData, activate: false}));
   };
   onMouseEnter = (target, menuDataIndex) => {
     this.setState((prevState) => {
+      const activate = true;
       const fadeOut = false;
       const display = 'block';
       const toDataOriginal = this.memoizeMenuData(this.props.columnWidth, this.props.children)[menuDataIndex];
@@ -445,6 +450,7 @@ export default class SiteNav extends Component {
         }
 
         return {
+          activate,
           display,
           fadeOut,
           fromData,
@@ -456,6 +462,7 @@ export default class SiteNav extends Component {
     });
   };
   onMouseLeave = () => this.close();
+
   onClickMovingDiv = () => this.close();
 
   render() {
@@ -463,9 +470,9 @@ export default class SiteNav extends Component {
       columnWidth, rowHeight, background, contentBackground, contentColor, contentTop,
       children, align, fontSize, fontFamily, color, breakpoint, navClass
     } = this.props;
-    const {fromData, toData, display, fadeOut, leftOffset, rightOffset} = this.state;
+    const {fromData, toData, display, fadeOut, activate, leftOffset, rightOffset} = this.state;
     const columns = this.memoizeColumns(children);
-    const rootGridItems = this.memoizeGridItems(children, color, toData);
+    const rootGridItems = this.memoizeGridItems(children, color, toData, activate);
     const content = this.memoizeContent(children, fromData, toData);
     const justifyContent = this.memoizeAlign(align);
     const contentBackgroundSanitised = (toData && toData.background) || contentBackground;
