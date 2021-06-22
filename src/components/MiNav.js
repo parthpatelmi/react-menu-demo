@@ -54,19 +54,14 @@ const GridItemLink = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${({active, activate}) => activate && active ? 'red' : ''};
-  //white-space: nowrap;
+  color: ${({active, activate}) => activate && active ? 'red' : 'white'};
+  white-space: nowrap;
 
   &:hover {
-    //opacity: 0.5;
-  }
-  ${setFromProps('color')};
-  
-  &:visited {
-    ${setFromProps('color')};
+    color: ${({active, activate}) => activate && active ? 'red' : 'white'};
   }
 `;
-const GridItem = styled.div`
+const GridItem = styled.a`
   grid-column: ${({index}) => index + 1} / span 1;
   white-space: nowrap;
   display: flex;
@@ -74,7 +69,7 @@ const GridItem = styled.div`
   align-items: center;
   cursor: pointer;
   position: relative;
-  color: ${({active, activate}) => activate && active ? 'red' : ''};
+  color: ${({active, activate}) => activate && active ? 'red' : 'white'};
   &::after {
     content: '';
     display: block;
@@ -90,6 +85,8 @@ const GridItem = styled.div`
     transition: width .3s;
   }
   &:hover {
+    color: ${({active, activate}) => activate && active ? 'red' : 'white'};
+
     &::after{
       width: 100%;
     }
@@ -347,9 +344,9 @@ export default class SiteNav extends Component {
     };
   }));
   memoizeGridItems = memoize((children, color, toData, activate) => React.Children.map(children, (child, i) => {
-      const {title, rootUrl, navItemClass} = child.props;
-
-      if (rootUrl) {
+      const {title, rootUrl, navItemClass, width} = child.props;
+    console.log(width)
+      if (!width) {
         return (
           <GridItemLink
             href={rootUrl}
@@ -357,7 +354,7 @@ export default class SiteNav extends Component {
             active={toData && toData.index === i}
             key={`menu-title-${i}`}
             index={i}
-            onMouseEnter={(e) => this.onMouseEnter(e.target, i)}
+            onMouseEnter={ this.gridItemLinkClick}
             // onMouseLeave={this.onMouseLeave}
             color={color}
             className={navItemClass}
@@ -371,6 +368,7 @@ export default class SiteNav extends Component {
 
       return (
         <GridItem
+        href={rootUrl}
           key={`menu-title-${i}`}
           activate={activate}
           active={toData && toData.index === i}
@@ -411,6 +409,11 @@ export default class SiteNav extends Component {
     if (this.props.debug) return;
     this.setState((prevState) => ({fadeOut: true, fromData: prevState.toData, activate: false}));
   };
+  gridItemLinkClick = () => {
+    this.setState({
+      fadeOut : true
+    })
+  }
   onMouseEnter = (target, menuDataIndex) => {
     this.setState((prevState) => {
       const activate = true;
